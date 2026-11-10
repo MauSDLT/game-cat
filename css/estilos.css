@@ -1,0 +1,69 @@
+.tarjeta-juego {
+    /* Ajustes para experimentar */
+    --alto-arte: 280px;      /* alto de la zona del fondo */
+    --alto-portada: 88%;     /* alto de la portada dentro de esa zona */
+    --proporcion-portada: 2 / 3;
+
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    color: #fff;
+    background: color-mix(in srgb, var(--color-juego) 70%, black);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-arte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.tarjeta-arte::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta-portada {
+    height: 88%;
+    border-radius: 0.25rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.tarjeta-cuerpo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.tarjeta-descripcion {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+.btn-comprar {
+    background: color-mix(in srgb, var(--color-juego), white 10%);
+    color: #fff;
+    border: none;
+}
+
+.btn-comprar:hover {
+    background: color-mix(in srgb, var(--color-juego), white 40%);
+    color: #fff;
+}
+
+.tarjeta-juego .card-body {
+    color: white;
+    background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
+}
