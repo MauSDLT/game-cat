@@ -1,15 +1,5 @@
 .tarjeta-juego {
-    /* Ajustes para experimentar */
-    --alto-arte: 280px;      /* alto de la zona del fondo */
-    --alto-portada: 88%;     /* alto de la portada dentro de esa zona */
-    --proporcion-portada: 2 / 3;
-
-    display: flex;
-    flex-direction: column;
-    border-radius: 0.75rem;
     overflow: hidden;
-    color: #fff;
-    background: color-mix(in srgb, var(--color-juego) 70%, black);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -37,11 +27,9 @@
     position: relative;
 }
 
-.tarjeta-cuerpo {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 1rem;
+.tarjeta-juego .card-body {
+    color: white;
+    background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
 }
 
 .tarjeta-descripcion {
@@ -50,6 +38,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-size: 0.9rem;
+}
+
+.tarjeta-precio {
+    font-weight: bold;
 }
 
 .btn-comprar {
@@ -63,7 +55,26 @@
     color: #fff;
 }
 
-.tarjeta-juego .card-body {
+.producto-hero {
+    position: relative;
+    min-height: 50vh;
+    padding: 3rem 0;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
     color: white;
-    background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
 }
+
+.producto-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.producto-hero .container {
+    position: relative;
+}
+
+.producto-hero p { text-align: justify; }
