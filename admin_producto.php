@@ -7,6 +7,7 @@ if (empty($_SESSION['usuario_admin'])) {
 }
 
 require_once "includes/conexion.php";
+require_once "includes/funciones.php";
 
 $id = (int) ($_GET['id'] ?? 0);
 $juego = null;
@@ -35,6 +36,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         : 'NULL';
 
     if ($id > 0) {
+        $carpeta = dirname($juego['portada']);
+
+        if ($_FILES['portada']['error'] === UPLOAD_ERR_OK) {
+            $nueva = guardarImagen($_FILES['portada'], $carpeta, 'portada-' . time());
+            if ($nueva) {
+                if (is_file($juego['portada'])) {
+                    unlink($juego['portada']);
+                }
+                $nueva = mysqli_real_escape_string($con, $nueva);
+                mysqli_query($con, "UPDATE productos SET portada = '$nueva' WHERE id = $id");
+            }
+        }
+
+        if ($_FILES['fondo']['error'] === UPLOAD_ERR_OK) {
+            $nueva = guardarImagen($_FILES['fondo'], $carpeta, 'fondo-' . time());
+            if ($nueva) {
+                if (is_file($juego['fondo'])) {
+                    unlink($juego['fondo']);
+                }
+                $nueva = mysqli_real_escape_string($con, $nueva);
+                mysqli_query($con, "UPDATE productos SET fondo = '$nueva' WHERE id = $id");
+            }
+        }
+
+        
         $sql = "UPDATE productos SET
                     nombre = '$nombre',
                     descripcion = '$descripcion',
@@ -50,6 +76,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     color = '$color'                   
                 WHERE id = $id";
         mysqli_query($con, $sql);
+    }else {
+        $carpeta = "assets/juegos/" . crearSlug($_POST['nombre']);
+        
+        $portada = guardarImagen($_FILES['portada'], $carpeta, 'portada');
+        $fondo   = guardarImagen($_FILES['fondo'], $carpeta, 'fondo');
+        
+        $sql = "INSERT INTO productos
+                (nombre, descripcion, precio, stock, id_desarrollador, plataforma, genero,
+                clasificacion, anio, color, color_fondo, portada, fondo, trailer)
+                VALUES
+                ('$nombre', '$descripcion', $precio, $stock, $idDesarrollador, '$plataforma', '$genero',
+                '$clasificacion', $anio, '$color', $colorFondo, '$portada', '$fondo', '$trailer')";
+        mysqli_query($con, $sql);
+        
+        $nuevoId = mysqli_insert_id($con);
+
+        $capturas = $_FILES['capturas'];
+        for ($i = 0; $i < count($capturas['name']); $i++) {
+            $archivo = [
+                'name'     => $capturas['name'][$i],
+                'tmp_name' => $capturas['tmp_name'][$i],
+                'error'    => $capturas['error'][$i],
+            ];
+            $ruta = guardarImagen($archivo, $carpeta, 'captura' . ($i + 1));
+
+            if ($ruta) {
+                $orden = $i + 1;
+                if (!$portada) {
+                    echo "No se pudo guardar la portada. Revisa que sea una imagen válida.";
+                    exit;
+                }
+                mysqli_query($con, "INSERT INTO fotos_producto (id_producto, ruta, orden)
+                                    VALUES ($nuevoId, '$ruta', $orden)");
+            }
+        }
     }
 
     header("Location: admin.php");
@@ -67,7 +128,7 @@ include "includes/header.php";
         <div class="col-lg-8">
             <h1 class="mb-4"><?= $titulo ?></h1>
 
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="row g-3">
 
                     <div class="col-md-8">
@@ -151,6 +212,31 @@ include "includes/header.php";
                         <input type="text" class="form-control" id="trailer" name="trailer"
                             placeholder="ID de YouTube"
                             value="<?= htmlspecialchars($juego['trailer'] ?? '') ?>">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="portada" class="form-label">Portada</label>
+                        <?php if ($juego): ?>
+                            <img src="<?= htmlspecialchars($juego['portada']) ?>" class="d-block rounded mb-2" width="80" alt="Portada actual">
+                        <?php endif; ?>
+                        <input type="file" class="form-control" id="portada" name="portada" accept="image/*"
+                            <?= $juego ? '' : 'required' ?>>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="fondo" class="form-label">Fondo</label>
+                        <?php if ($juego && $juego['fondo']): ?>
+                            <img src="<?= htmlspecialchars($juego['fondo']) ?>" class="d-block rounded mb-2" width="140" alt="Fondo actual">
+                        <?php endif; ?>
+                        <input type="file" class="form-control" id="fondo" name="fondo" accept="image/*"
+                            <?= $juego ? '' : 'required' ?>>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="capturas" class="form-label">Capturas</label>
+                        <input type="file" class="form-control" id="capturas" name="capturas[]" accept="image/*" multiple
+                            <?= $juego ? '' : 'required' ?>>
+                        <div class="form-text">Puedes elegir varias imágenes a la vez.</div>
                     </div>
 
                     <div class="col-12 d-flex gap-2">
