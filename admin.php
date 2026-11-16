@@ -53,6 +53,7 @@ include "includes/header.php";
                         <td><?= htmlspecialchars($row['desarrollador']) ?></td>
                         <td>$<?= number_format($row['precio'],2) ?></td>
                         <td class="<?= $row['stock'] < 5 ? 'text-danger fw-bold' : '' ?>"><?= $row['stock'] ?></td>
+                        <td><a href="admin_producto.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-light">Editar</a></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
