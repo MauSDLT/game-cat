@@ -9,7 +9,6 @@
 
     $resultado = mysqli_query($con, $sql);
 
-    $titulo = "Catálogo";
     include "includes/header.php";
 ?>
 <div class="container py-4">
