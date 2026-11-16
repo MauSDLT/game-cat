@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 define("NOMBRE_TIENDA", "GAME CAT");
 ?>
 <!DOCTYPE html>
@@ -22,14 +25,22 @@ define("NOMBRE_TIENDA", "GAME CAT");
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link" href="index.php">Catálogo</a></li>
                 <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
+                <?php if(!empty($_SESSION['usuario_admin'])): ?>
+                    <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
+                <?php endif; ?>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
-                <li class="nav-item"><a class="nav-link" href="perfil.php">Mi cuenta</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.php">Iniciar sesión</a></li>
-                <li class="nav-item"><a class="nav-link" href="registro.php">Registrarse</a></li>
-            </ul>
+            <?php if(isset($_SESSION['usuario_id'])): ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
+                    <li class="nav-item"><a class="nav-link" href="perfil.php">Mi cuenta</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
+                </ul>
+            <?php else: ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="login.php">Iniciar sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="registro.php">Registrarse</a></li>
+                </ul>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
