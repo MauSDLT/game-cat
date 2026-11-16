@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (empty($_SESSION['usuario_admin'])) {
+    header("Location: index.php");
+    exit;
+}
+
 $titulo = "Admin";
 include "includes/header.php";
 ?>
