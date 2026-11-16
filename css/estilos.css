@@ -51,7 +51,7 @@
 .btn-comprar {
     background: color-mix(in srgb, var(--color-juego), white 10%);
     color: #fff;
-    border: none;
+    border: 2px solid transparent;
 }
 
 .btn-comprar:hover {
@@ -63,6 +63,7 @@
     border: 2px solid var(--color-juego);
     color: var(--color-juego);
     background: transparent;
+    min-width: 3rem;
 }
 
 .btn-favorito:hover,

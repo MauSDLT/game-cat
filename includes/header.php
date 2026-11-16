@@ -11,13 +11,17 @@ define("NOMBRE_TIENDA", "GAME CAT");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $titulo ?? NOMBRE_TIENDA ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="css/estilos.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/sitio/favicon.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="index.php"><?= NOMBRE_TIENDA ?></a>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
+            <img src="assets/sitio/logo.svg" alt="" height="32">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,9 +35,24 @@ define("NOMBRE_TIENDA", "GAME CAT");
             </ul>
             <?php if(isset($_SESSION['usuario_id'])): ?>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
-                    <li class="nav-item"><a class="nav-link" href="perfil.php">Mi cuenta</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="carrito.php" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Mi carrito">
+                            <i class="bi bi-cart"></i>
+                            <span class="d-lg-none ms-2">Mi carrito</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="perfil.php" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Mi perfil">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="d-lg-none ms-2">Mi perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Cerrar sesión">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span class="d-lg-none ms-2">Cerrar sesión</span>
+                        </a>
+                    </li>
                 </ul>
             <?php else: ?>
                 <ul class="navbar-nav">
