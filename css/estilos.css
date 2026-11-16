@@ -32,6 +32,10 @@
     background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
 }
 
+.tarjeta-juego h2 a:hover {
+    text-decoration: underline;
+}
+
 .tarjeta-descripcion {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -53,6 +57,19 @@
 .btn-comprar:hover {
     background: color-mix(in srgb, var(--color-juego), white 40%);
     color: #fff;
+}
+
+.btn-favorito {
+    border: 2px solid var(--color-juego);
+    color: var(--color-juego);
+    background: transparent;
+}
+
+.btn-favorito:hover,
+.btn-favorito.activo {
+    background: var(--color-juego);
+    border-color: var(--color-juego);
+    color: white;
 }
 
 .producto-hero {

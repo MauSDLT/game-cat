@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once "includes/conexion.php";
     $id = (int) ($_GET['id'] ?? 0);
 
@@ -13,6 +14,12 @@
     $sqlFotos = "SELECT ruta FROM fotos_producto WHERE id_producto = $id ORDER BY orden";
     $fotos = mysqli_query($con, $sqlFotos);
 
+    $esFavorito = false;
+    if (isset($_SESSION['usuario_id'])) {
+        $idUsuario = $_SESSION['usuario_id'];
+        $sqlFav = "SELECT id FROM favoritos WHERE id_usuario = $idUsuario AND id_producto = $id";
+        $esFavorito = mysqli_num_rows(mysqli_query($con, $sqlFav)) > 0;
+    }
 
     
     $titulo = $juego['nombre'] ?? 'Juego no encontrado';
@@ -43,6 +50,17 @@
                             <form action="agregar_carrito.php" method="post" class="d-inline">
                                 <input type="hidden" name="id_producto" value="<?= $juego['id'] ?>">
                                 <button type="submit" class="btn btn-comprar btn-lg">Agregar al carrito</button>
+                            </form>
+                            <?php if (isset($_SESSION['mensaje_favorito'])): ?>
+                                <div class="alert alert-warning"><?= htmlspecialchars($_SESSION['mensaje_favorito']) ?></div>
+                                <?php unset($_SESSION['mensaje_favorito']); ?>
+                            <?php endif; ?>
+                            <form action="favorito.php" method="post" class="d-inline">
+                                <input type="hidden" name="id_producto" value="<?= $juego['id'] ?>">
+                                <button type="submit" class="btn btn-lg btn-favorito <?= $esFavorito ? 'activo' : '' ?>"
+                                        title="<?= $esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos' ?>">
+                                    <?= $esFavorito ? '♥' : '♡' ?>
+                                </button>
                             </form>
                         </div>
                     </div>
