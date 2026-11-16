@@ -40,7 +40,10 @@
                         <p class="text-white-50">Desarrollador: <?= htmlspecialchars($juego['desarrollador']) ?></p>
                         <div class="d-flex align-items-center gap-3 mt-4">
                             <span class="tarjeta-precio fs-3">$<?= number_format($juego['precio'],2) ?></span>
-                            <a href="#" class="btn btn-comprar btn-lg">Agregar al carrito</a>
+                            <form action="agregar_carrito.php" method="post" class="d-inline">
+                                <input type="hidden" name="id_producto" value="<?= $juego['id'] ?>">
+                                <button type="submit" class="btn btn-comprar btn-lg">Agregar al carrito</button>
+                            </form>
                         </div>
                     </div>
                 </div>
