@@ -21,6 +21,10 @@ include "includes/header.php";
 
 <div class="container py-4">
     <h1>Carrito</h1>
+    <?php if (isset($_SESSION['mensaje_compra'])): ?>
+        <div class="alert alert-info"><?= htmlspecialchars($_SESSION['mensaje_compra']) ?></div>
+        <?php unset($_SESSION['mensaje_compra']); ?>
+    <?php endif; ?>
     <?php if(mysqli_num_rows($resultado) == 0): ?>
         <div class="alert alert-info">
             <strong>Tu carrito está vacío.</strong> <a href="index.php" class="alert-link">Explora el catálogo</a>.
@@ -75,6 +79,9 @@ include "includes/header.php";
                     </tr>
                 </tbody>
             </table>
+            <form action="finalizar_compra.php" method="post" class="text-end">
+                <button type="submit" class="btn btn-success btn-lg">Finalizar compra</button>
+            </form>
         </div>
     <?php endif; ?>
 
