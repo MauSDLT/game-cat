@@ -1,5 +1,5 @@
 <?php
-define("NOMBRE_TIENDA", "Tienda");
+define("NOMBRE_TIENDA", "GAME CAT");
 ?>
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
