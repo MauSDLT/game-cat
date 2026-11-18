@@ -26,9 +26,15 @@ $sqlFavoritos = "SELECT p.id, p.nombre, p.portada
                 FROM favoritos f
                 JOIN productos p ON f.id_producto = p.id
                 WHERE f.id_usuario = $idUsuario
-                ORDER BY f.id
-                LIMIT 4";
-$favoritos = mysqli_query($con, $sqlFavoritos);
+                ORDER BY f.id DESC";
+$resFavoritos = mysqli_query($con, $sqlFavoritos);
+
+$favoritos = [];
+while ($fav = mysqli_fetch_assoc($resFavoritos)) {
+    $favoritos[] = $fav;
+}
+$primeros = array_slice($favoritos, 0, 4);
+$resto    = array_slice($favoritos, 4); 
 
 $titulo = "Perfil";
 include "includes/header.php";
@@ -62,11 +68,17 @@ include "includes/header.php";
                 </ul>
                 <div class="card-body">
                     <h3 class="h6 text-body-secondary mb-3">Juegos favoritos</h3>
-                    <?php if (mysqli_num_rows($favoritos) === 0): ?>
-                        <p class="text-body-secondary small mb-0">Aún no tienes favoritos. Márcalos con ♡ en la página de cada juego. <a href="index.php" style="color: #FFFFFF">Explora juegos.</a></p>
+
+                    <?php if (empty($favoritos)): ?>
+                        <p class="text-body-secondary small mb-0">
+                            Aún no tienes favoritos. Márcalos con ♡ en la página de cada juego.
+                            <a href="index.php" class="text-reset">Explora juegos.</a>
+                        </p>
                     <?php endif; ?>
+
+                    <!-- Los primeros 4, siempre visibles -->
                     <div class="row g-2">
-                        <?php while ($fav = mysqli_fetch_assoc($favoritos)): ?>
+                        <?php foreach ($primeros as $fav): ?>
                             <div class="col-3">
                                 <a href="producto.php?id=<?= $fav['id'] ?>" title="<?= htmlspecialchars($fav['nombre']) ?>">
                                     <div class="ratio" style="--bs-aspect-ratio: 150%;">
@@ -74,10 +86,34 @@ include "includes/header.php";
                                             class="rounded object-fit-cover"
                                             alt="<?= htmlspecialchars($fav['nombre']) ?>">
                                     </div>
-                                </a>
+                                </a>    
                             </div>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </div>
+
+                    <?php if (!empty($resto)): ?>
+                        <div class="collapse" id="masFavoritos">
+                            <div class="row g-2 mt-0">
+                                <?php foreach ($resto as $fav): ?>
+                                    <div class="col-3">
+                                        <a href="producto.php?id=<?= $fav['id'] ?>" title="<?= htmlspecialchars($fav['nombre']) ?>">
+                                            <div class="ratio" style="--bs-aspect-ratio: 150%;">
+                                                <img src="<?= htmlspecialchars($fav['portada']) ?>"
+                                                    class="rounded object-fit-cover"
+                                                    alt="<?= htmlspecialchars($fav['nombre']) ?>">
+                                            </div>
+                                        </a>    
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-sm btn-outline-light mt-3 btn-ver-mas collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#masFavoritos">
+                            <span class="texto-ver-mas">Ver todos (<?= count($favoritos) ?>)</span>
+                            <span class="texto-ver-menos">Ver menos</span>
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
 

@@ -97,3 +97,8 @@
 }
 
 .producto-hero p { text-align: justify; }
+
+.btn-ver-mas.collapsed .texto-ver-menos,
+.btn-ver-mas:not(.collapsed) .texto-ver-mas {
+    display: none;
+}
