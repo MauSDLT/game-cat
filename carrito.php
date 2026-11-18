@@ -51,7 +51,7 @@ include "includes/header.php";
                                     alt="<?= htmlspecialchars($row['nombre']) ?>" width=80></td>
                                 <td><?= htmlspecialchars($row['nombre']) ?></td>
                                 <td>$<?= number_format($row['precio'],2) ?></td>
-                                <td><form action="actualizar_carrito.php" method="post">
+                                <td><form action="actualizar_carrito.php" method="post" class="form-carrito">
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                         <div class="btn-group btn-group-sm">
                                             <button type="submit" name="accion" value="restar" class="btn btn-outline-light btn-info"
@@ -66,7 +66,7 @@ include "includes/header.php";
                                 <td>$<?= number_format($subtotal, 2) ?></td>
                                 <?php $total += $subtotal; ?>
                                 <td>
-                                    <form action="eliminar_carrito.php" method="post">
+                                    <form action="eliminar_carrito.php" method="post" class="form-carrito">
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                                     </form>
@@ -87,5 +87,19 @@ include "includes/header.php";
 
     
 </div>
+<script>
+document.querySelectorAll(".form-carrito").forEach(form => {
+    form.addEventListener("submit", async (evento) => {
+        evento.preventDefault();
 
+        const datos = new FormData(form);
+        if (evento.submitter && evento.submitter.name) {
+            datos.append(evento.submitter.name, evento.submitter.value);
+        }
+
+        await fetch(form.action, { method: "POST", body: datos });
+        location.replace("carrito.php");
+    });
+});
+</script>
 <?php include "includes/footer.php"; ?>

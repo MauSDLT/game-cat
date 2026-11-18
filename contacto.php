@@ -108,7 +108,7 @@ include "includes/header.php";
             <div id="pregunta4" class="accordion-collapse collapse" data-bs-parent="#faq">
                 <div class="accordion-body">
                     En la página de cualquier juego, da clic en el corazón ♡ junto al botón de "Agregar al carrito".
-                    Puedes tener hasta 4 favoritos, y aparecerán en tu perfil. Para quitar uno, vuelve a dar clic
+                    Aparecerán en tu perfil. Para quitar uno, vuelve a dar clic
                     en el corazón.
                 </div>
             </div>

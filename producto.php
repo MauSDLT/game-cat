@@ -49,7 +49,9 @@
                             <span class="tarjeta-precio fs-3">$<?= number_format($juego['precio'],2) ?></span>
                             <form action="agregar_carrito.php" method="post" class="d-inline">
                                 <input type="hidden" name="id_producto" value="<?= $juego['id'] ?>">
-                                <button type="submit" class="btn btn-comprar btn-lg">Agregar al carrito</button>
+                                <button type="submit" class="btn btn-comprar btn-lg" <?= $juego['stock'] <= 0 ? 'disabled' : '' ?>>
+                                    <?= $juego['stock'] > 0 ? 'Agregar al carrito' : 'Agotado' ?>
+                                </button>
                             </form>
                             <?php if (isset($_SESSION['mensaje_favorito'])): ?>
                                 <div class="alert alert-warning"><?= htmlspecialchars($_SESSION['mensaje_favorito']) ?></div>

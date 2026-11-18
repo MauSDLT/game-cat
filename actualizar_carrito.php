@@ -14,7 +14,8 @@ $accion = $_POST['accion'] ?? '';
 
 if ($accion === 'sumar') {
     $sql = "UPDATE carrito SET cantidad = cantidad + 1
-            WHERE id = $id AND id_usuario = $idUsuario";
+        WHERE id = $id AND id_usuario = $idUsuario
+        AND cantidad < (SELECT stock FROM productos WHERE productos.id = carrito.id_producto)";
     mysqli_query($con, $sql);
 } elseif ($accion === 'restar') {
     $sql = "UPDATE carrito SET cantidad = cantidad - 1
