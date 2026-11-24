@@ -27,8 +27,8 @@ Requisito: tener [Docker Desktop](https://www.docker.com/products/docker-desktop
 
 1. Clona el repositorio:
    ```
-   git clone https://github.com/MauSDLT/tienda-videojuegos.git
-   cd tienda-videojuegos
+   git clone https://github.com/MauSDLT/game-cat.git
+   cd game-cat
    ```
 
 2. Copia el archivo de configuración:
