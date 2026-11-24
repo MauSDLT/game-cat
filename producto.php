@@ -79,9 +79,9 @@
                             <?php $primera = true; ?>
                             <?php while ($foto = mysqli_fetch_assoc($fotos)): ?>
                                 <div class="carousel-item <?= $primera ? 'active' : '' ?>">
-                                    <div class="ratio ratio-16x9">
+                                    <div class="ratio ratio-16x9 bg-black">
                                         <img src="<?= htmlspecialchars($foto['ruta']) ?>"
-                                            class="object-fit-cover"
+                                            class="object-fit-contain"
                                             alt="Captura de <?= htmlspecialchars($juego['nombre']) ?>">
                                     </div>
                                 </div>

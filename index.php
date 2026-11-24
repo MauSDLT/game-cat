@@ -29,6 +29,7 @@
                     <div class="card-body d-flex flex-column">
                         <h2 class="h5"><a href="producto.php?id=<?= $row['id'] ?>" class="text-reset text-decoration-none"><?= htmlspecialchars($row['nombre']) ?></a></h2>
                         <p class="tarjeta-descripcion"><?= htmlspecialchars($row['descripcion']) ?></p>
+                        <p class="text-white-50"><?= htmlspecialchars($row['desarrollador']) ?></p>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
                             <span class="tarjeta-precio">$<?= number_format($row['precio'], 2) ?></span>
                             <a href="producto.php?id=<?= $row['id'] ?>" class="btn btn-comprar">Comprar</a>

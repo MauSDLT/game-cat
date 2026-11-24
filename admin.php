@@ -22,13 +22,17 @@ $h = "SELECT h.fecha, u.nombre AS usuario, p.nombre AS juego, h.cantidad, h.prec
             ORDER BY h.fecha DESC";
 $historial = mysqli_query($con, $h);
 
+$res = mysqli_query($con, "SELECT COUNT(*) as total FROM PRODUCTOS;");
+$fila = mysqli_fetch_assoc($res);
+$total = $fila['total'];
+
 $titulo = "Administración";
 include "includes/header.php";
 ?>
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">Inventario</h1>
+        <h1 class="mb-0">Inventario (<?= $total ?>)</h1>
         <a href="admin_producto.php" class="btn btn-success">Agregar juego</a>
     </div>
 
@@ -36,8 +40,8 @@ include "includes/header.php";
         <table class="table align-middle">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Juego</th>
+                    <th></th>
                     <th>Desarrollador</th>
                     <th>Precio</th>
                     <th>Stock</th>

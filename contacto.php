@@ -8,6 +8,7 @@ include "includes/header.php";
     <div class="text-center mb-5">
         <h1>Sobre <?= NOMBRE_TIENDA ?></h1>
         <p class="lead text-body-secondary"><?= NOMBRE_TIENDA ?> es una tienda en línea de videojuegos, siempre intentando tener una experiencia inmersiva para el usuario.</p>
+        <p class="lead text-body-secondary">Esta página tiene un Easter Egg secreto.</p>
     </div>
 
     <div class="row g-4">

@@ -102,3 +102,33 @@
 .btn-ver-mas:not(.collapsed) .texto-ver-mas {
     display: none;
 }
+
+.paseante {
+    position: fixed;
+    z-index: 3000;
+    pointer-events: none;
+    image-rendering: pixelated;
+    animation-duration: var(--duracion, 6s);
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.paseante.a-der {
+    left: -200px;
+    animation-name: cruzar-der;
+}
+
+.paseante.a-izq {
+    right: -200px;
+    transform: scaleX(-1);
+    animation-name: cruzar-izq;
+}
+
+@keyframes cruzar-der {
+    to { transform: translateX(calc(100vw + 400px)); }
+}
+
+@keyframes cruzar-izq {
+    from { transform: scaleX(-1); }
+    to   { transform: translateX(calc(-100vw - 400px)) scaleX(-1); }
+}
