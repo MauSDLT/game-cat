@@ -123,19 +123,17 @@
 }
 
 .fila-juegos::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .15);
+    background: rgba(var(--bs-emphasis-color-rgb), .15);
     border-radius: 3px;
 }
 
 .fila-juegos:hover::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .4);
+    background: rgba(var(--bs-emphasis-color-rgb), .4);
 }
-
-/* Firefox */
 @supports not selector(::-webkit-scrollbar) {
     .fila-juegos {
         scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, .3) transparent;
+        scrollbar-color: rgba(var(--bs-emphasis-color-rgb), .3) transparent;
     }
 }
 

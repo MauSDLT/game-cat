@@ -7,6 +7,12 @@ define("NOMBRE_TIENDA", "GAME CAT");
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 <head>
+    <script>
+        try {
+            const tema = localStorage.getItem("tema");
+            if (tema) document.documentElement.setAttribute("data-bs-theme", tema);
+        } catch (e) {}
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $titulo ?? NOMBRE_TIENDA ?></title>
@@ -35,6 +41,9 @@ define("NOMBRE_TIENDA", "GAME CAT");
             </ul>
             <?php if(isset($_SESSION['usuario_id'])): ?>
                 <ul class="navbar-nav">
+                    <button type="button" id="btnTema" class="btn btn-link nav-link" data-bs-toggle="tooltip" title="Cambiar tema">
+                        <i class="bi bi-sun"></i>
+                    </button>
                     <li class="nav-item">
                         <a class="nav-link" href="carrito.php" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Mi carrito">
                             <i class="bi bi-cart"></i>
@@ -56,6 +65,9 @@ define("NOMBRE_TIENDA", "GAME CAT");
                 </ul>
             <?php else: ?>
                 <ul class="navbar-nav">
+                    <button type="button" id="btnTema" class="btn btn-link nav-link" data-bs-toggle="tooltip" title="Cambiar tema">
+                        <i class="bi bi-sun"></i>
+                    </button>
                     <li class="nav-item"><a class="nav-link" href="login.php">Iniciar sesión</a></li>
                     <li class="nav-item"><a class="nav-link" href="registro.php">Registrarse</a></li>
                 </ul>

@@ -9,6 +9,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+    document.querySelectorAll(".ver-contrasena").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const input = btn.parentElement.querySelector("input");
+            const mostrar = input.type === "password";
+            input.type = mostrar ? "text" : "password";
+            btn.querySelector("i").className = mostrar ? "bi bi-eye-slash" : "bi bi-eye";
+        });
+    });
+
+    const btnTema = document.getElementById("btnTema");
+    const html = document.documentElement;
+
+    function pintarIcono() {
+        const oscuro = html.getAttribute("data-bs-theme") === "dark";
+        btnTema.querySelector("i").className = oscuro ? "bi bi-sun" : "bi bi-moon-stars";
+    }
+
+    btnTema.addEventListener("click", () => {
+        const nuevo = html.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+        html.setAttribute("data-bs-theme", nuevo);
+        try { localStorage.setItem("tema", nuevo); } catch (e) {}
+        pintarIcono();
+    });
+
+    pintarIcono();
 </script>
 <script>
 (() => {

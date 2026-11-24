@@ -69,11 +69,21 @@ include "includes/header.php";
                     </div>
                     <div class="mb-3">
                         <label for="contrasena" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" name="contrasena" minlength="8" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="contrasena" placeholder="Ingresa tu contraseña" name="contrasena" required>
+                            <button type="button" class="btn btn-outline-secondary ver-contrasena" tabindex="-1">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="contrasena2" class="form-label">Confirmar contraseña</label>
-                        <input type="password" class="form-control" id="contrasena2" name="contrasena2" minlength="8" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="contrasena" placeholder="Ingresa tu contraseña" name="contrasena" required>
+                            <button type="button" class="btn btn-outline-secondary ver-contrasena" tabindex="-1">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="nacimiento" class="form-label">Fecha de nacimiento</label>
