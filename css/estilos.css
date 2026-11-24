@@ -1,53 +1,4 @@
-.tarjeta-juego {
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.tarjeta-arte {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 280px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.tarjeta-arte::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.tarjeta-portada {
-    height: 88%;
-    border-radius: 0.25rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    position: relative;
-}
-
-.tarjeta-juego .card-body {
-    color: white;
-    background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
-}
-
-.tarjeta-juego h2 a:hover {
-    text-decoration: underline;
-}
-
-.tarjeta-descripcion {
-    display: -webkit-box;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 0.9rem;
-}
-
-.tarjeta-precio {
-    font-weight: bold;
-}
+/* Botones */
 
 .btn-comprar {
     background: color-mix(in srgb, var(--color-juego), white 10%);
@@ -71,37 +22,207 @@
 .btn-favorito.activo {
     background: var(--color-juego);
     border-color: var(--color-juego);
-    color: white;
+    color: #fff;
 }
+
+.btn-ver-mas.collapsed .texto-ver-menos,
+.btn-ver-mas:not(.collapsed) .texto-ver-mas {
+    display: none;
+}
+
+
+/* Carrusel */
+
+.destacado img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+}
+
+.destacado::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(to bottom, rgba(0, 0, 0, .6), transparent 25%),
+        linear-gradient(to top, rgba(0, 0, 0, .9), transparent 55%),
+        linear-gradient(to right, rgba(0, 0, 0, .6), transparent 60%);
+}
+
+.destacado .carousel-caption {
+    z-index: 2;
+    bottom: 2.5rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+}
+
+.destacado h2 {
+    border-left: 5px solid var(--color-juego);
+    padding-left: .75rem;
+}
+
+.carrusel-titulo {
+    position: absolute;
+    top: 1.5rem;
+    left: 15%;
+    z-index: 3;
+    margin: 0;
+    color: #fff;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    opacity: .85;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+}
+
+/* sobrescribe el tema oscuro de Bootstrap */
+#carruselDestacados .carousel-caption {
+    color: #fff;
+}
+
+#carruselDestacados .carousel-control-prev-icon,
+#carruselDestacados .carousel-control-next-icon {
+    filter: none;
+}
+
+#carruselDestacados .carousel-indicators {
+    justify-content: flex-end;
+    margin-right: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+#carruselDestacados .carousel-indicators [data-bs-target] {
+    width: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: #fff;
+}
+
+
+/* Filas horizontales */
+
+.fila-juegos {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: .75rem;
+}
+
+.fila-item {
+    flex: 0 0 240px;
+    scroll-snap-align: start;
+}
+
+.fila-juegos::-webkit-scrollbar {
+    height: 6px;
+}
+
+.fila-juegos::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.fila-juegos::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .15);
+    border-radius: 3px;
+}
+
+.fila-juegos:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .4);
+}
+
+/* Firefox */
+@supports not selector(::-webkit-scrollbar) {
+    .fila-juegos {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, .3) transparent;
+    }
+}
+
+
+/* Tarjetas */
+
+.tarjeta-juego {
+    overflow: hidden;
+}
+
+.tarjeta-arte {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+}
+
+.tarjeta-arte::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .3);
+}
+
+.tarjeta-portada {
+    position: relative;
+    height: 88%;
+    border-radius: .25rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+}
+
+.tarjeta-juego .card-body {
+    color: #fff;
+    background: var(--color-fondo, color-mix(in srgb, var(--color-juego) 60%, black));
+}
+
+.tarjeta-juego .h5 a:hover {
+    text-decoration: underline;
+}
+
+.tarjeta-descripcion {
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: .9rem;
+}
+
+.tarjeta-precio {
+    font-weight: bold;
+}
+
+
+/* Página de producto */
 
 .producto-hero {
     position: relative;
-    min-height: 50vh;
-    padding: 3rem 0;
     display: flex;
     align-items: center;
+    min-height: 50vh;
+    padding: 3rem 0;
     background-size: cover;
     background-position: center;
-    color: white;
+    color: #fff;
 }
 
 .producto-hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, .6);
 }
 
 .producto-hero .container {
     position: relative;
 }
 
-.producto-hero p { text-align: justify; }
-
-.btn-ver-mas.collapsed .texto-ver-menos,
-.btn-ver-mas:not(.collapsed) .texto-ver-mas {
-    display: none;
+.producto-hero p {
+    text-align: justify;
 }
+
+
+/* Easter egg */
 
 .paseante {
     position: fixed;
@@ -131,4 +252,54 @@
 @keyframes cruzar-izq {
     from { transform: scaleX(-1); }
     to   { transform: translateX(calc(-100vw - 400px)) scaleX(-1); }
+}
+
+
+/* Celular */
+
+@media (max-width: 767px) {
+    .destacado img { aspect-ratio: 4 / 3; }
+
+    .destacado .carousel-caption {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1.75rem;
+        padding-bottom: 0;
+    }
+
+    .destacado h2 { font-size: 1.25rem; }
+
+    .destacado .btn {
+        padding: .25rem .75rem;
+        font-size: .875rem;
+    }
+
+    .carrusel-titulo {
+        top: 1rem;
+        left: 1rem;
+        font-size: .7rem;
+    }
+
+    #carruselDestacados .carousel-control-prev,
+    #carruselDestacados .carousel-control-next {
+        display: none;
+    }
+
+    .fila-item { flex-basis: 160px; }
+
+    .tarjeta-arte { height: 200px; }
+
+    .tarjeta-descripcion { display: none; }
+
+    .tarjeta-juego .card-body { padding: .75rem; }
+
+    .tarjeta-juego .h5 { font-size: .95rem; }
+
+    .tarjeta-juego .text-white-50 { font-size: .8rem; }
+
+    .tarjeta-juego .card-body .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: .5rem;
+    }
 }
