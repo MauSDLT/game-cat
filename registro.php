@@ -79,7 +79,7 @@ include "includes/header.php";
                     <div class="mb-3">
                         <label for="contrasena2" class="form-label">Confirmar contraseña</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="contrasena" placeholder="Ingresa tu contraseña" name="contrasena" required>
+                            <input type="password" class="form-control" id="contrasena2" placeholder="Ingresa tu contraseña" name="contrasena2" required>
                             <button type="button" class="btn btn-outline-secondary ver-contrasena" tabindex="-1">
                                 <i class="bi bi-eye"></i>
                             </button>
