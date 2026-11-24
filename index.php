@@ -113,7 +113,7 @@
                     <div class="carousel-item destacado <?= $i === 0 ? 'active' : '' ?>"
                             style="--color-juego: <?= htmlspecialchars($juego['color']) ?>"
                             data-bs-interval="6000">
-                        <img src="<?= htmlspecialchars($juego['fondo']) ?>" class="d-block w-100" alt="<?= htmlspecialchars($juego['nombre']) ?>">
+                        <a href="producto.php?id=<?= $juego['id'] ?>"><img src="<?= htmlspecialchars($juego['fondo']) ?>" class="d-block w-100" alt="<?= htmlspecialchars($juego['nombre']) ?>"></a>
                         <div class="carousel-caption text-start">
                             <h2 class="fw-bold"><?= htmlspecialchars($juego['nombre']) ?></h2>
                             <a href="producto.php?id=<?= $juego['id'] ?>" class="btn btn-comprar">Ver juego</a>
@@ -148,28 +148,29 @@
     <section id="catalogo" class="mt-5">
         <h2 class="h4 mb-3"><?= $hayFiltros ? 'Resultados' : 'Todos los juegos' ?></h2>
 
-        <form method="get" action="index.php#catalogo" class="mb-4">
-            <div class="row g-2">
-                <div class="col-12 col-md">
-                    <input type="search" name="q" class="form-control" placeholder="Buscar juego..."
-                            value="<?= htmlspecialchars($q) ?>">
+            <form method="get" action="index.php#catalogo" class="mb-4">
+                <input type="hidden" name="q" value="<?= htmlspecialchars($q) ?>">
+
+                <div class="row g-2 justify-content-end">
+                    <div class="col-6 col-md-auto">
+                        <div class="input-group">
+                            <label class="input-group-text" for="orden">Ordenar por</label>
+                            <select name="orden" id="orden" class="form-select" onchange="this.form.requestSubmit()">
+                                <option value="nombre"      <?= $ordenSel === 'nombre' ? 'selected' : '' ?>>Nombre</option>
+                                <option value="precio_asc"  <?= $ordenSel === 'precio_asc' ? 'selected' : '' ?>>Precio: menor a mayor</option>
+                                <option value="precio_desc" <?= $ordenSel === 'precio_desc' ? 'selected' : '' ?>>Precio: mayor a menor</option>
+                                <option value="nuevos"      <?= $ordenSel === 'nuevos' ? 'selected' : '' ?>>Más recientes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-auto d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary flex-fill"
+                                data-bs-toggle="collapse" data-bs-target="#panelFiltros">
+                            <i class="bi bi-funnel"></i> Filtros
+                        </button>
+                        <button type="submit" class="btn btn-primary flex-fill">Aplicar</button>
+                    </div>
                 </div>
-                <div class="col-6 col-md-auto">
-                    <select name="orden" class="form-select" onchange="this.form.requestSubmit()">
-                        <option value="nombre"      <?= $ordenSel === 'nombre' ? 'selected' : '' ?>>Nombre</option>
-                        <option value="precio_asc"  <?= $ordenSel === 'precio_asc' ? 'selected' : '' ?>>Precio: menor a mayor</option>
-                        <option value="precio_desc" <?= $ordenSel === 'precio_desc' ? 'selected' : '' ?>>Precio: mayor a menor</option>
-                        <option value="nuevos"      <?= $ordenSel === 'nuevos' ? 'selected' : '' ?>>Más recientes</option>
-                    </select>
-                </div>
-                <div class="col-6 col-md-auto d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary flex-fill"
-                            data-bs-toggle="collapse" data-bs-target="#panelFiltros">
-                        <i class="bi bi-funnel"></i> Filtros
-                    </button>
-                    <button type="submit" class="btn btn-primary flex-fill">Aplicar</button>
-                </div>
-            </div>
 
             <!-- panel de checkbox -->
             <div class="collapse <?= ($generosSel || $devsSel) ? 'show' : '' ?>" id="panelFiltros">
@@ -204,7 +205,8 @@
 
         <?php if ($hayFiltros): ?>
             <p class="text-body-secondary">
-                <?= mysqli_num_rows($resultado) ?> juego(s) encontrados ·
+                <?= mysqli_num_rows($resultado) ?> juego(s) encontrados
+                <?php if ($q !== ''): ?> para "<?= htmlspecialchars($q) ?>"<?php endif; ?> ·
                 <a href="index.php">Limpiar filtros</a>
             </p>
         <?php endif; ?>
