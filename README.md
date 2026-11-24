@@ -1,6 +1,6 @@
 # GAME CAT 🐱🎮
 
-Tienda en línea de videojuegos desarrollada para la materia **Programación para Internet** — Universidad Anáhuac.
+Tienda en línea de videojuegos desarrollada para la materia **Programación para Internet**, Universidad Anáhuac.
 
 **Autor:** Mauricio Sánchez De La Torre
 
@@ -23,16 +23,19 @@ Tienda en línea de videojuegos desarrollada para la materia **Programación par
 
 ## Cómo ejecutarlo
 
+Requisito: tener [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y abierto.
+
 1. Clona el repositorio:
    ```
    git clone https://github.com/MauSDLT/tienda-videojuegos.git
    cd tienda-videojuegos
    ```
 
-2. Copia el archivo de configuración y llénalo con los datos de `docker-compose.yml`:
+2. Copia el archivo de configuración:
    ```
-   cp html/tienda/includes/config.example.php html/tienda/includes/config.php
+   cp includes/config.example.php includes/config.php
    ```
+   Llénalo con los datos del servicio `db` de `docker-compose.yml` (el host es `db`).
 
 3. Levanta los contenedores:
    ```
@@ -41,27 +44,28 @@ Tienda en línea de videojuegos desarrollada para la materia **Programación par
 
 4. Entra a phpMyAdmin en [http://localhost:8081](http://localhost:8081), crea la base `tienda` e importa el archivo `tienda.sql`.
 
-5. Abre la tienda en [http://localhost:8080/tienda](http://localhost:8080/tienda)
+5. Abre la tienda en [http://localhost:8080](http://localhost:8080)
 
 ## Usuario de prueba
 
 | Rol | Correo | Contraseña |
 |---|---|---|
-| Administrador | `<correo>` | `<contraseña>` |
+| Administrador | `adminprueba@gamecat.com` | `P4sw0rd789` |
 
-> Los números de tarjeta son de prueba; no se almacenan datos reales.
+> Todos los usuarios y números de tarjeta son de prueba; no se almacenan datos reales.
 
 ## Estructura
 
 ```
-tienda/
-├── includes/     # header, footer, conexión y tarjeta
-├── css/          # estilos.css
-├── assets/       # logo, favicon e imágenes de los juegos
-├── index.php     # catálogo
-├── producto.php  # detalle del juego
-├── carrito.php
-├── perfil.php
-├── admin.php
-└── ...
+├── includes/          # header, footer, conexión y tarjeta
+├── css/               # estilos.css
+├── assets/            # logo, favicon e imágenes de los juegos
+├── index.php          # catálogo
+├── producto.php       # detalle del juego
+├── carrito.php        # carrito de compras
+├── perfil.php         # cuenta, favoritos e historial
+├── admin.php          # panel de administrador
+├── tienda.sql         # base de datos
+├── Dockerfile
+└── docker-compose.yml
 ```
