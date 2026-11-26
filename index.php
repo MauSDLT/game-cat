@@ -13,14 +13,14 @@
         FROM productos
         WHERE fondo IS NOT NULL AND fondo <> ''
         ORDER BY RAND()
-        LIMIT 5");
+        LIMIT 10");
 
     // Filas
-    $novedades  = mysqli_query($con, "$base ORDER BY p.anio DESC, p.nombre LIMIT 10");
+    $novedades  = mysqli_query($con, "$base ORDER BY p.anio DESC, p.nombre LIMIT 20");
     $top        = mysqli_query($con, "$base JOIN historial h ON h.id_producto = p.id
                                         GROUP BY p.id, d.nombre
-                                        ORDER BY SUM(h.cantidad) DESC LIMIT 10");
-    $nuevo      = mysqli_query($con, "$base ORDER BY RAND() LIMIT 10");
+                                        ORDER BY SUM(h.cantidad) DESC LIMIT 20");
+    $nuevo      = mysqli_query($con, "$base ORDER BY RAND() LIMIT 20");
     $economicos = mysqli_query($con, "$base WHERE p.precio < 500 ORDER BY p.precio LIMIT 10");
     $ultimas    = mysqli_query($con, "$base WHERE p.stock BETWEEN 1 AND 5 ORDER BY p.stock LIMIT 10");
 
@@ -33,14 +33,24 @@
         $condiciones[] = "p.nombre LIKE '%$qEsc%'";
     }
 
-    // géneros: debe cumplir todos los marcados
+    // géneros
     $generosSel = (array) ($_GET['genero'] ?? []);
     foreach ($generosSel as $g) {
         $gEsc = mysqli_real_escape_string($con, $g);
         $condiciones[] = "FIND_IN_SET('$gEsc', REPLACE(p.genero, ', ', ','))";
     }
+    // plataformas: cualquiera de las marcadas
+    $platsSel = (array) ($_GET['plat'] ?? []);
+    if ($platsSel) {
+        $opciones = [];
+        foreach ($platsSel as $p) {
+            $pEsc = mysqli_real_escape_string($con, $p);
+            $opciones[] = "FIND_IN_SET('$pEsc', REPLACE(p.plataforma, ', ', ','))";
+        }
+        $condiciones[] = "(" . implode(" OR ", $opciones) . ")";
+    }
 
-    // desarrolladores: cualquiera de los marcados
+    // desarrolladores
     $devsSel = array_map('intval', (array) ($_GET['dev'] ?? []));
     if ($devsSel) {
         $condiciones[] = "p.id_desarrollador IN (" . implode(",", $devsSel) . ")";
@@ -70,6 +80,15 @@
     }
     $generos = array_unique($generos);
     sort($generos);
+        $conteoPlat = [];
+    $resP = mysqli_query($con, "SELECT plataforma FROM productos");
+    while ($fila = mysqli_fetch_assoc($resP)) {
+        foreach (explode(",", $fila['plataforma']) as $p) {
+            $p = trim($p);
+            $conteoPlat[$p] = ($conteoPlat[$p] ?? 0) + 1;
+        }
+    }
+    arsort($conteoPlat);
 
     $desarrolladores = mysqli_query($con, "SELECT id, nombre FROM desarrolladores ORDER BY nombre");
 
@@ -173,17 +192,32 @@
                 </div>
 
             <!-- panel de checkbox -->
-            <div class="collapse <?= ($generosSel || $devsSel) ? 'show' : '' ?>" id="panelFiltros">
+            <div class="collapse <?= ($generosSel || $devsSel || $platsSel) ? 'show' : '' ?>" id="panelFiltros">
                 <div class="row mt-3 p-3 border rounded-3">
+
                     <div class="col-md-8">
                         <h3 class="h6">Géneros</h3>
                         <div class="row row-cols-2 row-cols-md-3">
                             <?php foreach ($generos as $g): ?>
                                 <div class="form-check col">
                                     <input class="form-check-input" type="checkbox" name="genero[]"
-                                            value="<?= htmlspecialchars($g) ?>" id="g-<?= md5($g) ?>"
-                                            <?= in_array($g, $generosSel) ? 'checked' : '' ?>>
+                                        value="<?= htmlspecialchars($g) ?>" id="g-<?= md5($g) ?>"
+                                        <?= in_array($g, $generosSel) ? 'checked' : '' ?>>
                                     <label class="form-check-label" for="g-<?= md5($g) ?>"><?= htmlspecialchars($g) ?></label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <h3 class="h6 mt-4">Plataforma</h3>
+                        <div class="row row-cols-2 row-cols-md-3">
+                            <?php foreach ($conteoPlat as $p => $total): ?>
+                                <div class="form-check col">
+                                    <input class="form-check-input" type="checkbox" name="plat[]"
+                                        value="<?= htmlspecialchars($p) ?>" id="p-<?= md5($p) ?>"
+                                        <?= in_array($p, $platsSel) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="p-<?= md5($p) ?>">
+                                        <?= htmlspecialchars($p) ?> <span class="text-body-secondary">(<?= $total ?>)</span>
+                                    </label>
                                 </div>
                             <?php endforeach; ?>
                         </div>
